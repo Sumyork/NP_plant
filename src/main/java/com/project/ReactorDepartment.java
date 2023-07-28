@@ -9,6 +9,7 @@ public class ReactorDepartment {
     private int countRun = 0;
     boolean reactorWork = false;
 
+    // Реактор запускается на 1 день и производит 10 миллионов киловатт/часов.
     public int run() {
 
         reactorWork = false;

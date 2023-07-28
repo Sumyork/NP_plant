@@ -13,10 +13,11 @@ public class NuclearStation {
         this.reactorDepartment = reactorDepartment;
     }
 
+    // Запускает годовой цикл производства электричества.
     public void startYear() {
         System.out.println("Атомная станция начала работу.");
 
-        for (int i = 0; i < 365; i++) {
+        for (int i = 1; i <= 365; i++) {
 
             if (i % 100 != 0) {
                 int electricEnergy = reactorDepartment.run();
@@ -28,7 +29,7 @@ public class NuclearStation {
                 try {
                     throw new NuclearFuelIsEmptyException();
                 } catch (NuclearFuelIsEmptyException e) {
-                    System.out.println("Закончилось топливо!");
+                    System.out.println("Внимание! Происходят работы на атомной станции! Электричества нет!");
                 }
 
             }
