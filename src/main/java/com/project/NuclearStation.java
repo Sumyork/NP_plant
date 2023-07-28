@@ -1,6 +1,7 @@
 package com.project;
 
 import com.project.exception.NuclearFuelIsEmptyException;
+import com.project.exception.ReactorWorkException;
 import org.springframework.stereotype.Component;
 
 @Component("nuclearStationBean")
@@ -18,24 +19,14 @@ public class NuclearStation {
         System.out.println("Атомная станция начала работу.");
 
         for (int i = 1; i <= 365; i++) {
-
-            if (i % 100 != 0) {
+            try {
                 int electricEnergy = reactorDepartment.run();
-
                 sumEnergy += electricEnergy;
-
-            } else {
                 reactorDepartment.stop();
-                try {
-                    throw new NuclearFuelIsEmptyException();
-                } catch (NuclearFuelIsEmptyException e) {
-                    System.out.println("Внимание! Происходят работы на атомной станции! Электричества нет!");
-                }
-
+            } catch (NuclearFuelIsEmptyException | ReactorWorkException e) {
+                System.out.println("Внимание! Происходят работы на атомной станции! Электричества нет!");
             }
         }
-
-        reactorDepartment.stop();
 
         System.out.println("Атомная станция закончила работу. За год выработано " + sumEnergy + " киловатт/часов.");
     }

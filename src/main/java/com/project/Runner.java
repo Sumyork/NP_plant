@@ -12,6 +12,5 @@ public class Runner {
         nuclearStation.start(3);
 
         context.close();
-
     }
 }

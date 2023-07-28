@@ -1,5 +1,6 @@
 package com.project;
 
+import com.project.exception.NuclearFuelIsEmptyException;
 import com.project.exception.ReactorWorkException;
 import org.springframework.stereotype.Component;
 
@@ -11,16 +12,23 @@ public class ReactorDepartment {
 
     // Реактор запускается на 1 день и производит 10 миллионов киловатт/часов.
     public int run() {
+        countRun++;
 
-        reactorWork = false;
-
-        if (reactorWork == true) {
+        if (countRun == 100) {
+            countRun = 0;
+            try {
+                throw new NuclearFuelIsEmptyException();
+            } catch (NuclearFuelIsEmptyException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (!reactorWork) {
             try {
                 throw new ReactorWorkException();
             } catch (ReactorWorkException e) {
                 System.out.println("Реактор уже работает");
             }
         }
+
         reactorWork = true;
 
         return ELECTRICITY;
@@ -28,9 +36,7 @@ public class ReactorDepartment {
 
     public void stop() {
 
-        reactorWork = true;
-
-        if (reactorWork == false) {
+        if (reactorWork) {
             try {
                 throw new ReactorWorkException();
             } catch (ReactorWorkException e) {
