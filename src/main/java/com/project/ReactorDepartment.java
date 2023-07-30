@@ -3,46 +3,57 @@ package com.project;
 import com.project.exception.NuclearFuelIsEmptyException;
 import com.project.exception.ReactorWorkException;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.ls.LSOutput;
 
 @Component("reactorDepartmentBean")
 public class ReactorDepartment {
     private final static int ELECTRICITY = 10_000_000;
     private int countRun = 0;
-    boolean reactorWork = false;
+    private boolean reactorWork = false;
 
     // Реактор запускается на 1 день и производит 10 миллионов киловатт/часов.
-    public int run() {
+    public int run() throws NuclearFuelIsEmptyException {
         countRun++;
 
-        if (countRun == 100) {
-            countRun = 0;
-            try {
+//        System.out.println("Запуск: " + countRun);
+        try {
+            if (countRun == 100) {
+                countRun = 0;
+
                 throw new NuclearFuelIsEmptyException();
-            } catch (NuclearFuelIsEmptyException e) {
-                throw new RuntimeException(e);
+            } else if (reactorWork == true) {
+                throw new ReactorWorkException("Реактор уже работает!");
+            } else {
+                reactorWork = true;
             }
-        } else if (!reactorWork) {
-            try {
-                throw new ReactorWorkException();
-            } catch (ReactorWorkException e) {
-                System.out.println("Реактор уже работает");
-            }
+        } catch (ReactorWorkException e) {
+            e.getMessage();
         }
 
-        reactorWork = true;
+//        System.out.println("Включили реактор");
 
         return ELECTRICITY;
     }
 
     public void stop() {
 
-        if (reactorWork) {
+        if (reactorWork == false) {
             try {
-                throw new ReactorWorkException();
+                throw new ReactorWorkException("Реактор выключен!");
             } catch (ReactorWorkException e) {
-                System.out.println("Реактор уже выключен!");;
+                e.getMessage();
             }
         }
         reactorWork = false;
+
+        System.out.println("Остановили реактор.");
+    }
+
+    public int getCountRun() {
+        return countRun;
+    }
+
+    public void setCountRun(int countRun) {
+        this.countRun = countRun;
     }
 }

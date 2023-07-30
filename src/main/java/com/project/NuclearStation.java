@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component("nuclearStationBean")
 public class NuclearStation {
-    ReactorDepartment reactorDepartment = new ReactorDepartment();
+    ReactorDepartment reactorDepartment;
 
     long sumEnergy = 0;
 
@@ -22,11 +22,13 @@ public class NuclearStation {
             try {
                 int electricEnergy = reactorDepartment.run();
                 sumEnergy += electricEnergy;
-                reactorDepartment.stop();
-            } catch (NuclearFuelIsEmptyException | ReactorWorkException e) {
-                System.out.println("Внимание! Происходят работы на атомной станции! Электричества нет!");
+            } catch (NuclearFuelIsEmptyException e) {
+                System.out.println("Внимание! Происходят работы на атомной станции! Электричества нет!");;
             }
         }
+
+        reactorDepartment.setCountRun(0);
+        reactorDepartment.stop();
 
         System.out.println("Атомная станция закончила работу. За год выработано " + sumEnergy + " киловатт/часов.");
     }
