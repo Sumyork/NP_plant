@@ -46,7 +46,7 @@ public class ReactorDepartment {
         }
         reactorWork = false;
 
-        System.out.println("Остановили реактор.");
+//        System.out.println("Остановили реактор.");
     }
 
     public int getCountRun() {

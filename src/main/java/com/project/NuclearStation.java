@@ -27,7 +27,6 @@ public class NuclearStation {
             }
         }
 
-        reactorDepartment.setCountRun(0);
         reactorDepartment.stop();
 
         System.out.println("Атомная станция закончила работу. За год выработано " + sumEnergy + " киловатт/часов.");
