@@ -22,12 +22,11 @@ public class NuclearStation {
             try {
                 int electricEnergy = reactorDepartment.run();
                 sumEnergy += electricEnergy;
-            } catch (NuclearFuelIsEmptyException e) {
+                reactorDepartment.stop();
+            } catch (NuclearFuelIsEmptyException | ReactorWorkException e) {
                 System.out.println("Внимание! Происходят работы на атомной станции! Электричества нет!");;
             }
         }
-
-        reactorDepartment.stop();
 
         System.out.println("Атомная станция закончила работу. За год выработано " + sumEnergy + " киловатт/часов.");
     }

@@ -12,39 +12,35 @@ public class ReactorDepartment {
     private boolean reactorWork = false;
 
     // Реактор запускается на 1 день и производит 10 миллионов киловатт/часов.
-    public int run() throws NuclearFuelIsEmptyException {
+    public int run() throws NuclearFuelIsEmptyException, ReactorWorkException {
         countRun++;
 
 //        System.out.println("Запуск: " + countRun);
-        try {
-            if (countRun == 100) {
-                countRun = 0;
 
-                throw new NuclearFuelIsEmptyException();
-            } else if (reactorWork == true) {
-                throw new ReactorWorkException("Реактор уже работает!");
-            } else {
-                reactorWork = true;
-            }
-        } catch (ReactorWorkException e) {
-            e.getMessage();
+        if (countRun == 100) {
+            countRun = 0;
+
+            throw new NuclearFuelIsEmptyException();
+        } else if (reactorWork == true) {
+            throw new ReactorWorkException("Реактор уже работает!");
+        } else {
+            reactorWork = true;
         }
+
+
 
 //        System.out.println("Включили реактор");
 
         return ELECTRICITY;
     }
 
-    public void stop() {
+    public void stop() throws ReactorWorkException {
 
         if (reactorWork == false) {
-            try {
-                throw new ReactorWorkException("Реактор выключен!");
-            } catch (ReactorWorkException e) {
-                e.getMessage();
-            }
+            throw new ReactorWorkException("Реактор выключен!");
+        } else {
+            reactorWork = false;
         }
-        reactorWork = false;
 
 //        System.out.println("Остановили реактор.");
     }
